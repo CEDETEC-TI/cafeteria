@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grano — Café de especialidad en Formosa</title>
+<meta name="description" content="Grano, cafetería de especialidad en Formosa. Sumate al club de sellos: juntá sellos con cada compra y ganá café gratis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --bg: #fbf5ec;
+        --bg-panel: #ffffff;
+        --ink: #3b2417;
+        --ink-soft: #8a7462;
+        --line: #ecdfcc;
+        --charcoal: #2a1810;
+        --charcoal-soft: #341f14;
+        --caramel: #c17f3a;
+        --caramel-dark: #a3652a;
+        --caramel-light: #e0a866;
+        --cream: #f3e8d8;
+        --ok: #3f8a52;
+        --danger: #a83232;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.65;
+        font-weight: 400;
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+        color: var(--ink);
+        line-height: 1.15;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { font-family: inherit; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 32px; }
+
+    .eyebrow {
+        font-family: 'Inter', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--caramel-dark);
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--caramel-dark); }
+    .eyebrow.on-dark { color: var(--caramel-light); }
+    .eyebrow.on-dark::before { background: var(--caramel-light); }
+
+    .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+        padding: 15px 30px; border-radius: 30px; font-size: 0.88rem; font-weight: 700;
+        cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease; font-family: 'Inter', sans-serif;
+    }
+    .btn-caramel { background: var(--caramel); color: #fff; }
+    .btn-caramel:hover { background: var(--caramel-dark); }
+    .btn-caramel:disabled { background: #e0d3c0; cursor: not-allowed; }
+    .btn-outline { border-color: rgba(255,255,255,0.45); color: #fff; }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+    .btn-outline-dark { border-color: var(--ink); color: var(--ink); background: none; }
+    .btn-outline-dark:hover { background: var(--ink); color: #fff; }
+    .btn-ghost { background: none; color: var(--ink-soft); border-color: var(--line); }
+    .btn-ghost:hover { background: var(--line); }
+    .btn-wa { background: #25D366; color: #fff; }
+    .btn-wa:hover { background: #1fb355; }
+
+    /* ---------- NAV ---------- */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 500; padding: 22px 0; transition: all 0.3s ease; }
+    header.scrolled { padding: 12px 0; background: rgba(42, 24, 16, 0.95); backdrop-filter: blur(10px); box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+    nav.container { display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: #fff; }
+    .logo span { color: var(--caramel-light); }
+    .nav-links { display: flex; gap: 30px; align-items: center; }
+    .nav-links a:not(.nav-cta) { color: rgba(255,255,255,0.85); font-size: 0.83rem; font-weight: 600; transition: color 0.2s; }
+    .nav-links a:not(.nav-cta):hover { color: var(--caramel-light); }
+    .nav-cta { background: var(--caramel); color: #fff !important; padding: 11px 22px; border-radius: 30px; font-weight: 700; font-size: 0.8rem; }
+    .nav-cta:hover { background: var(--caramel-dark); }
+    .burger { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+
+    /* ---------- HERO ---------- */
+    .hero {
+        min-height: 100vh; display: flex; align-items: center; position: relative;
+        background:
+            linear-gradient(180deg, rgba(30,17,10,0.6) 0%, rgba(30,17,10,0.82) 55%, rgba(30,17,10,0.97) 100%),
+            url('https://images.unsplash.com/photo-1758593386033-cb1f842d550c?q=80&w=1800&auto=format&fit=crop') center/cover no-repeat;
+        color: #fff;
+    }
+    .hero-content { max-width: 640px; padding-top: 90px; }
+    .hero h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); color: #fff; margin-bottom: 20px; }
+    .hero h1 span { color: var(--caramel-light); }
+    .hero p { font-family: 'Inter', sans-serif; font-size: 1.06rem; color: rgba(255,255,255,0.82); max-width: 500px; margin-bottom: 34px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ---------- STRIP ---------- */
+    .strip { background: var(--charcoal); color: rgba(255,255,255,0.85); padding: 18px 0; }
+    .strip .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 0.82rem; font-family: 'Inter', sans-serif; }
+    .strip .item { display: flex; align-items: center; gap: 10px; }
+    .strip i { color: var(--caramel-light); }
+
+    /* ---------- SECTION BASE ---------- */
+    section { padding: 96px 0; }
+    .section-head { max-width: 620px; margin-bottom: 46px; }
+    .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+    .section-head h2 { font-size: clamp(2rem, 4.2vw, 2.8rem); margin-bottom: 14px; }
+    .section-head p { color: var(--ink-soft); font-size: 1.02rem; font-family: 'Inter', sans-serif; }
+
+    /* ---------- MENÚ ---------- */
+    .menu { background: var(--bg-panel); }
+    .cat-tabs { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+    .cat-tab { padding: 10px 24px; border-radius: 30px; border: 2px solid var(--line); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--ink-soft); cursor: pointer; transition: all 0.2s; }
+    .cat-tab:hover { border-color: var(--caramel); }
+    .cat-tab.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 40px; max-width: 760px; margin: 0 auto; }
+    .menu-item { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 14px; border-bottom: 1px dashed var(--line); }
+    .menu-item-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.02rem; }
+    .menu-item-desc { font-size: 0.82rem; color: var(--ink-soft); font-family: 'Inter', sans-serif; margin-top: 2px; }
+    .menu-item-price { font-family: 'Fraunces', serif; color: var(--caramel-dark); font-weight: 700; white-space: nowrap; }
+
+    /* ---------- FIDELIDAD (SISTEMA) ---------- */
+    .loyalty { background: var(--bg); }
+    .loyalty-card { background: var(--bg-panel); border: 1px solid var(--line); border-radius: 16px; padding: 40px; box-shadow: 0 24px 60px rgba(59,36,23,0.07); max-width: 640px; margin: 0 auto; }
+
+    .lookup-form { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lookup-form input { flex: 1; min-width: 180px; border: 2px solid var(--line); border-radius: 10px; padding: 13px 16px; font-size: 0.95rem; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); }
+    .lookup-form input:focus { outline: none; border-color: var(--caramel); }
+    .name-field { margin-top: 16px; }
+    .name-field input { width: 100%; }
+    .lookup-error { color: var(--danger); font-size: 0.85rem; margin-top: 12px; font-family: 'Inter', sans-serif; font-weight: 600; }
+    .lookup-hint { font-size: 0.84rem; color: var(--ink-soft); font-family: 'Inter', sans-serif; margin-top: 16px; }
+
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+    .card-greeting { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; }
+    .card-sub { font-size: 0.86rem; color: var(--ink-soft); font-family: 'Inter', sans-serif; margin-top: 2px; }
+    .switch-card { font-size: 0.8rem; color: var(--ink-soft); font-family: 'Inter', sans-serif; font-weight: 600; background: none; border: none; cursor: pointer; text-decoration: underline; }
+
+    .stamp-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+    .stamp-slot {
+        aspect-ratio: 1; border-radius: 50%; border: 2px dashed var(--line);
+        display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--line);
+        transition: all 0.3s ease;
+    }
+    .stamp-slot.filled {
+        border-style: solid; border-color: var(--caramel); background: var(--caramel);
+        color: #fff; transform: scale(1.04);
+    }
+    .stamp-progress-text { text-align: center; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.92rem; margin-bottom: 26px; color: var(--ink-soft); }
+    .stamp-progress-text strong { color: var(--caramel-dark); }
+
+    .purchase-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .purchase-row select { flex: 1; min-width: 160px; border: 2px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 0.92rem; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); }
+    .purchase-row select:focus { outline: none; border-color: var(--caramel); }
+
+    .reward-banner {
+        background: var(--cream); border: 2px solid var(--caramel-light); border-radius: 12px;
+        padding: 18px 20px; text-align: center; margin-bottom: 22px; display: flex; align-items: center; gap: 14px; justify-content: center;
+    }
+    .reward-banner i { color: var(--caramel-dark); font-size: 1.4rem; }
+    .reward-banner p { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.92rem; }
+
+    .history-toggle { text-align: center; margin-top: 22px; }
+    .history-toggle button { background: none; border: none; color: var(--caramel-dark); font-weight: 700; font-size: 0.85rem; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .history-list { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .history-item { display: flex; justify-content: space-between; font-size: 0.84rem; font-family: 'Inter', sans-serif; color: var(--ink-soft); padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .history-item .hi-reward { color: var(--caramel-dark); font-weight: 700; }
+
+    /* ---------- POR QUÉ GRANO ---------- */
+    .values { background: var(--charcoal); color: #fff; }
+    .values .section-head p { color: rgba(255,255,255,0.6); }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+    .value-card { text-align: left; }
+    .value-card i { font-size: 1.3rem; color: var(--caramel-light); margin-bottom: 14px; }
+    .value-card h3 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 6px; color: #fff; }
+    .value-card p { color: rgba(255,255,255,0.6); font-size: 0.88rem; font-family: 'Inter', sans-serif; }
+
+    /* ---------- UBICACIÓN ---------- */
+    .location { background: var(--bg-panel); }
+    .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: stretch; }
+    .location-info { display: flex; flex-direction: column; gap: 24px; justify-content: center; }
+    .contact-row { display: flex; gap: 18px; align-items: flex-start; }
+    .contact-row i { color: var(--caramel-dark); font-size: 1.05rem; margin-top: 4px; width: 22px; }
+    .contact-row h4 { font-size: 0.96rem; margin-bottom: 4px; font-weight: 700; font-family: 'Inter', sans-serif; }
+    .contact-row p, .contact-row a { color: var(--ink-soft); font-size: 0.94rem; font-family: 'Inter', sans-serif; }
+    .contact-row a:hover { color: var(--caramel-dark); }
+    .map-frame { border-radius: 10px; overflow: hidden; min-height: 340px; box-shadow: 0 20px 40px rgba(59,36,23,0.1); }
+    .map-frame iframe { width: 100%; height: 100%; min-height: 340px; border: 0; }
+
+    /* ---------- FOOTER ---------- */
+    footer { background: var(--charcoal); color: rgba(251,245,236,0.6); padding: 56px 0 24px; }
+    .footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 26px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-logo { font-family: 'Fraunces', serif; font-size: 1.5rem; color: #fff; }
+    .footer-social { display: flex; gap: 14px; }
+    .footer-social a { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: #fff; transition: all 0.2s; }
+    .footer-social a:hover { background: var(--caramel); border-color: var(--caramel); }
+    .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 22px; font-size: 0.78rem; font-family: 'Inter', sans-serif; }
+    .footer-bottom a { color: var(--caramel-light); }
+    .footer-bottom a:hover { text-decoration: underline; }
+
+    /* ---------- WHATSAPP FLOAT ---------- */
+    .wa-float { position: fixed; bottom: 26px; right: 26px; z-index: 400; width: 58px; height: 58px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 10px 26px rgba(0,0,0,0.25); animation: floatpulse 2.4s ease infinite; }
+    @keyframes floatpulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+        .values-grid { grid-template-columns: 1fr; gap: 24px; }
+        .location-grid { grid-template-columns: 1fr; }
+        .menu-grid { grid-template-columns: 1fr; }
+        .nav-links { display: none; }
+        .nav-links.open {
+            display: flex; position: fixed; top: 64px; left: 0; right: 0;
+            background: rgba(42,24,16,0.97); flex-direction: column; padding: 24px; gap: 20px;
+            backdrop-filter: blur(10px); text-align: center; z-index: 499;
+        }
+        .burger { display: block; }
+        .loyalty-card { padding: 26px 22px; }
+    }
+    @media (max-width: 560px) {
+        section { padding: 64px 0; }
+        .container { padding: 0 20px; }
+        .strip .container { flex-direction: column; align-items: flex-start; }
+        .stamp-row { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .card-header { flex-direction: column; gap: 10px; }
+    }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+    <nav class="container">
+        <a href="#top" class="logo">GRAN<span>O</span></a>
+        <div class="nav-links" id="navLinks">
+            <a href="#menu">Menú</a>
+            <a href="#fidelidad">Club de sellos</a>
+            <a href="#ubicacion">Ubicación</a>
+            <a href="#fidelidad" class="nav-cta">Sumate al club</a>
+        </div>
+        <button class="burger" id="burgerBtn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+    </nav>
+</header>
+
+<section class="hero" id="top">
+    <div class="container hero-content">
+        <span class="eyebrow on-dark">Café de especialidad · Formosa</span>
+        <h1>Cada café<br>suma un <span>sello</span>.</h1>
+        <p>Café de especialidad recién tostado. Sumate al club: juntá 8 sellos con tus compras y el noveno café va por nuestra cuenta.</p>
+        <div class="hero-actions">
+            <a href="#fidelidad" class="btn btn-caramel"><i class="fa-solid fa-stamp"></i> Ver mi tarjeta de sellos</a>
+            <a href="#menu" class="btn btn-outline"><i class="fa-solid fa-mug-saucer"></i> Ver el menú</a>
+        </div>
+    </div>
+</section>
+
+<div class="strip">
+    <div class="container">
+        <div class="item"><i class="fa-solid fa-location-dot"></i> San Martín 410, Formosa Capital</div>
+        <div class="item"><i class="fa-solid fa-clock"></i> Lun a Sáb · 07:30 – 20:00 hs</div>
+        <div class="item"><i class="fa-solid fa-stamp"></i> 8 sellos = 1 café gratis</div>
+    </div>
+</div>
+
+<section class="menu" id="menu">
+    <div class="container">
+        <div class="section-head center">
+            <span class="eyebrow">Menú</span>
+            <h2>Lo que servimos</h2>
+            <p>Precios de referencia en pesos argentinos.</p>
+        </div>
+        <div class="cat-tabs" id="catTabs"></div>
+        <div class="menu-grid" id="menuGrid"></div>
+    </div>
+</section>
+
+<section class="loyalty" id="fidelidad">
+    <div class="container">
+        <div class="section-head center">
+            <span class="eyebrow">Sistema de fidelidad</span>
+            <h2>Tu tarjeta de sellos</h2>
+            <p>Ingresá tu WhatsApp para ver tu tarjeta. Si es tu primera vez, la creamos al instante.</p>
+        </div>
+
+        <div class="loyalty-card">
+            <div id="lookupPanel">
+                <div class="lookup-form">
+                    <input id="phoneInput" type="tel" placeholder="Tu WhatsApp (ej: 3704123456)">
+                    <button class="btn btn-caramel" id="lookupBtn">Ver mi tarjeta</button>
+                </div>
+                <div class="name-field" id="nameField" hidden>
+                    <input id="nameInput" type="text" placeholder="¿Cómo te llamamos?">
+                </div>
+                <p class="lookup-error" id="lookupError" hidden></p>
+                <p class="lookup-hint">Es una tarjeta de demostración: se guarda en este navegador, no en un sistema real de la cafetería.</p>
+            </div>
+
+            <div id="cardPanel" hidden>
+                <div class="card-header">
+                    <div>
+                        <div class="card-greeting" id="cardGreeting"></div>
+                        <div class="card-sub" id="cardSub"></div>
+                    </div>
+                    <button class="switch-card" id="switchCardBtn">Cambiar de tarjeta</button>
+                </div>
+
+                <div class="reward-banner" id="rewardBanner" hidden>
+                    <i class="fa-solid fa-gift"></i>
+                    <p id="rewardBannerText"></p>
+                </div>
+
+                <div class="stamp-row" id="stampRow"></div>
+                <p class="stamp-progress-text" id="stampProgressText"></p>
+
+                <div class="purchase-row">
+                    <select id="purchaseSelect"></select>
+                    <button class="btn btn-outline-dark" id="registerPurchaseBtn"><i class="fa-solid fa-plus"></i> Registrar compra</button>
+                </div>
+
+                <div class="history-toggle">
+                    <button id="historyToggleBtn">Ver mi historial →</button>
+                    <div class="history-list" id="historyList" hidden></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="values">
+    <div class="container">
+        <div class="section-head center">
+            <span class="eyebrow on-dark">Por qué Grano</span>
+            <h2 style="color:#fff">Tostado propio, todos los días</h2>
+        </div>
+        <div class="values-grid">
+            <div class="value-card"><i class="fa-solid fa-fire-burner"></i><h3>Tueste propio</h3><p>Tostamos en pequeños lotes toda la semana para que el café llegue siempre fresco.</p></div>
+            <div class="value-card"><i class="fa-solid fa-leaf"></i><h3>Granos de origen</h3><p>Trabajamos con productores que priorizan calidad por sobre volumen.</p></div>
+            <div class="value-card"><i class="fa-solid fa-stamp"></i><h3>Club de sellos</h3><p>Cuanto más volvés, más rápido llega tu próximo café gratis.</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="location" id="ubicacion">
+    <div class="container location-grid">
+        <div class="location-info">
+            <span class="eyebrow">Ubicación</span>
+            <h2>Te esperamos</h2>
+            <div class="contact-row"><i class="fa-solid fa-location-dot"></i><div><h4>Dirección</h4><p>San Martín 410, Formosa Capital, Argentina</p></div></div>
+            <div class="contact-row"><i class="fa-brands fa-whatsapp"></i><div><h4>WhatsApp</h4><a href="https://wa.me/5493704666777" target="_blank">+54 9 3704 66-6777</a></div></div>
+            <div class="contact-row"><i class="fa-solid fa-envelope"></i><div><h4>Email</h4><a href="mailto:hola@granocafe.com">hola@granocafe.com</a></div></div>
+            <div class="contact-row"><i class="fa-brands fa-instagram"></i><div><h4>Instagram</h4><a href="#" target="_blank">@grano.cafe</a></div></div>
+        </div>
+        <div class="map-frame">
+            <iframe src="https://www.google.com/maps?q=Formosa%20Capital%2C%20Argentina&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-top">
+            <div>
+                <div class="footer-logo">GRAN<span style="color:var(--caramel)">O</span></div>
+                <p style="margin-top:8px; font-size:0.85rem; max-width:340px; font-family:'Inter',sans-serif;">Café de especialidad en Formosa Capital. Sumate al club de sellos.</p>
+            </div>
+            <div class="footer-social">
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/5493704666777" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Grano Café. Todos los derechos reservados.</span>
+            <span>Sitio de demostración desarrollado por <a href="https://cedetec-digital.netlify.app/" target="_blank">CEDETEC Digital</a></span>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/5493704666777?text=Hola%2C%20quiero%20consultar%20sobre%20Grano%20Caf%C3%A9" target="_blank" class="wa-float" aria-label="Consultar por WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script>
+/* =========================================================
+   DATOS (demo)
+   ========================================================= */
+const CATEGORIES = [
+    { id: 'calientes', name: 'Cafés calientes' },
+    { id: 'frias',     name: 'Bebidas frías' },
+    { id: 'pasteleria',name: 'Pastelería' },
+];
+
+const MENU = [
+    { id: 'espresso',   name: 'Espresso',           cat: 'calientes', price: 3200, desc: 'Doble shot, base de todo.' },
+    { id: 'cortado',    name: 'Cortado',             cat: 'calientes', price: 3600, desc: 'Espresso con un toque de leche.' },
+    { id: 'conleche',   name: 'Café con leche',      cat: 'calientes', price: 4200, desc: 'El clásico de toda la vida.' },
+    { id: 'capuccino',  name: 'Capuccino',           cat: 'calientes', price: 4800, desc: 'Espuma cremosa, cacao opcional.' },
+    { id: 'latte',      name: 'Latte',               cat: 'calientes', price: 5200, desc: 'Suave, ideal para tomarse su tiempo.' },
+    { id: 'americano',  name: 'Café americano',      cat: 'calientes', price: 3800, desc: 'Espresso alargado con agua caliente.' },
+    { id: 'icedlatte',  name: 'Iced latte',          cat: 'frias',     price: 5600, desc: 'Bien frío, con hielo y leche fría.' },
+    { id: 'frape',      name: 'Frappé',              cat: 'frias',     price: 6200, desc: 'Café helado batido, textura cremosa.' },
+    { id: 'limonada',   name: 'Limonada de casa',    cat: 'frias',     price: 4500, desc: 'Con menta fresca.' },
+    { id: 'medialuna',  name: 'Medialuna',           cat: 'pasteleria',price: 1800, desc: 'De manteca, horneadas todos los días.' },
+    { id: 'croissant',  name: 'Croissant',           cat: 'pasteleria',price: 2600, desc: 'Hojaldre bien mantecoso.' },
+    { id: 'scon',       name: 'Scon',                cat: 'pasteleria',price: 2800, desc: 'Con mermelada casera.' },
+    { id: 'budin',      name: 'Budín de naranja',    cat: 'pasteleria',price: 3200, desc: 'Húmedo, con glaseado cítrico.' },
+    { id: 'cookie',     name: 'Cookie',               cat: 'pasteleria',price: 2400, desc: 'Chips de chocolate semiamargo.' },
+];
+
+const LOYALTY_KEY = 'grano_loyalty';
+const STAMPS_TO_REWARD = 8;
+const WHATSAPP_NUMBER = '5493704666777';
+
+let activeCategory = 'calientes';
+let activePhone = null;
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function money(n) { return '$' + n.toLocaleString('es-AR'); }
+function normalizePhone(p) { return p.replace(/\D/g, ''); }
+function getMenuItem(id) { return MENU.find(m => m.id === id); }
+
+function getAllCards() {
+    try { return JSON.parse(localStorage.getItem(LOYALTY_KEY)) || {}; }
+    catch { return {}; }
+}
+function saveAllCards(cards) {
+    try { localStorage.setItem(LOYALTY_KEY, JSON.stringify(cards)); } catch {}
+}
+function getCard(phone) { return getAllCards()[phone] || null; }
+function saveCard(phone, card) {
+    const cards = getAllCards();
+    cards[phone] = card;
+    saveAllCards(cards);
+}
+
+/* =========================================================
+   RENDER: MENÚ
+   ========================================================= */
+function renderCatTabs() {
+    const el = document.getElementById('catTabs');
+    el.innerHTML = CATEGORIES.map(c => `<div class="cat-tab ${activeCategory === c.id ? 'active' : ''}" data-cat="${c.id}">${c.name}</div>`).join('');
+    el.querySelectorAll('[data-cat]').forEach(tab => {
+        tab.addEventListener('click', () => { activeCategory = tab.dataset.cat; renderCatTabs(); renderMenuGrid(); });
+    });
+}
+
+function renderMenuGrid() {
+    const grid = document.getElementById('menuGrid');
+    const list = MENU.filter(m => m.cat === activeCategory);
+    grid.innerHTML = list.map(m => `
+        <div class="menu-item">
+            <div>
+                <div class="menu-item-name">${m.name}</div>
+                <div class="menu-item-desc">${m.desc}</div>
+            </div>
+            <div class="menu-item-price">${money(m.price)}</div>
+        </div>
+    `).join('');
+}
+
+function renderPurchaseSelect() {
+    document.getElementById('purchaseSelect').innerHTML = MENU.map(m => `<option value="${m.id}">${m.name} — ${money(m.price)}</option>`).join('');
+}
+
+/* =========================================================
+   BUSCAR / CREAR TARJETA
+   ========================================================= */
+const phoneInput = document.getElementById('phoneInput');
+const nameField = document.getElementById('nameField');
+const nameInput = document.getElementById('nameInput');
+const lookupError = document.getElementById('lookupError');
+
+document.getElementById('lookupBtn').addEventListener('click', () => {
+    const digits = normalizePhone(phoneInput.value.trim());
+    if (digits.length < 8) {
+        lookupError.hidden = false;
+        lookupError.textContent = 'Ingresá un WhatsApp válido (con código de área).';
+        return;
+    }
+    const existing = getCard(digits);
+    if (existing) {
+        lookupError.hidden = true;
+        openCard(digits);
+        return;
+    }
+    // Tarjeta nueva: pedir nombre si todavía no lo cargó
+    if (nameField.hidden) {
+        nameField.hidden = false;
+        lookupError.hidden = false;
+        lookupError.textContent = 'Es tu primera vez acá. Decinos tu nombre para crear tu tarjeta.';
+        return;
+    }
+    const name = nameInput.value.trim();
+    if (name.length < 2) {
+        lookupError.hidden = false;
+        lookupError.textContent = 'Ingresá tu nombre para crear la tarjeta.';
+        return;
+    }
+    const newCard = { name, stamps: 0, rewardsRedeemed: 0, history: [] };
+    saveCard(digits, newCard);
+    lookupError.hidden = true;
+    openCard(digits);
+});
+
+function openCard(phone) {
+    activePhone = phone;
+    document.getElementById('lookupPanel').style.display = 'none';
+    document.getElementById('cardPanel').style.display = 'block';
+    document.getElementById('rewardBanner').style.display = 'none';
+    document.getElementById('historyList').style.display = 'none';
+    renderCardView();
+}
+
+document.getElementById('switchCardBtn').addEventListener('click', () => {
+    activePhone = null;
+    phoneInput.value = '';
+    nameInput.value = '';
+    nameField.hidden = true;
+    lookupError.hidden = true;
+    document.getElementById('cardPanel').style.display = 'none';
+    document.getElementById('lookupPanel').style.display = 'block';
+});
+
+/* =========================================================
+   RENDER DE LA TARJETA
+   ========================================================= */
+function renderCardView() {
+    const card = getCard(activePhone);
+    if (!card) return;
+    document.getElementById('cardGreeting').textContent = `Hola, ${card.name} ☕`;
+    document.getElementById('cardSub').textContent = card.rewardsRedeemed > 0
+        ? `Ya canjeaste ${card.rewardsRedeemed} café${card.rewardsRedeemed > 1 ? 's' : ''} gratis.`
+        : 'Todavía no canjeaste ningún café gratis.';
+
+    const stampRow = document.getElementById('stampRow');
+    let dots = '';
+    for (let i = 0; i < STAMPS_TO_REWARD; i++) {
+        dots += `<div class="stamp-slot ${i < card.stamps ? 'filled' : ''}"><i class="fa-solid fa-mug-hot"></i></div>`;
+    }
+    stampRow.innerHTML = dots;
+
+    const remaining = STAMPS_TO_REWARD - card.stamps;
+    document.getElementById('stampProgressText').innerHTML =
+        remaining === 0 ? '¡Tarjeta completa!' : `Te faltan <strong>${remaining}</strong> sello${remaining > 1 ? 's' : ''} para tu café gratis.`;
+
+    renderHistory(card);
+}
+
+function renderHistory(card) {
+    const list = document.getElementById('historyList');
+    if (card.history.length === 0) {
+        list.innerHTML = '<p class="lookup-hint">Todavía no registraste ninguna compra.</p>';
+        return;
+    }
+    list.innerHTML = card.history.slice().reverse().map(h => `
+        <div class="history-item">
+            <span>${h.date} · ${h.item}</span>
+            <span class="${h.reward ? 'hi-reward' : ''}">${h.reward ? '🎁 Café gratis' : money(h.price)}</span>
+        </div>
+    `).join('');
+}
+
+document.getElementById('historyToggleBtn').addEventListener('click', (e) => {
+    const list = document.getElementById('historyList');
+    const open = list.style.display === 'flex';
+    list.style.display = open ? 'none' : 'flex';
+    e.target.textContent = open ? 'Ver mi historial →' : 'Ocultar historial ↑';
+});
+
+/* =========================================================
+   REGISTRAR COMPRA
+   ========================================================= */
+document.getElementById('registerPurchaseBtn').addEventListener('click', () => {
+    if (!activePhone) return;
+    const card = getCard(activePhone);
+    if (!card) return;
+    const itemId = document.getElementById('purchaseSelect').value;
+    const item = getMenuItem(itemId);
+    const today = new Date().toLocaleDateString('es-AR');
+
+    card.stamps += 1;
+    let rewardEarned = false;
+    if (card.stamps >= STAMPS_TO_REWARD) {
+        card.stamps = 0;
+        card.rewardsRedeemed += 1;
+        rewardEarned = true;
+    }
+    card.history.push({ date: today, item: item.name, price: item.price, reward: rewardEarned });
+    saveCard(activePhone, card);
+
+    const banner = document.getElementById('rewardBanner');
+    if (rewardEarned) {
+        document.getElementById('rewardBannerText').textContent = '¡Completaste la tarjeta! Tu próximo café es gratis — mostrá esta pantalla en caja.';
+        banner.style.display = 'flex';
+    } else {
+        banner.style.display = 'none';
+    }
+
+    renderCardView();
+});
+
+/* =========================================================
+   HEADER + BURGER
+   ========================================================= */
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 40));
+
+const burger = document.getElementById('burgerBtn');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+/* =========================================================
+   INIT
+   ========================================================= */
+renderCatTabs();
+renderMenuGrid();
+renderPurchaseSelect();
+</script>
+
+</body>
+</html>
